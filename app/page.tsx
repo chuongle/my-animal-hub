@@ -12,11 +12,13 @@ export default function Chat() {
   });
   const [input, setInput] = useState('');
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      sendMessage({ text: input });
-      setInput('');
+      if (input.trim()) {
+        sendMessage({ text: input });
+        setInput('');
+      }
     }
   };
 
@@ -61,7 +63,7 @@ export default function Chat() {
               className="w-full bg-transparent text-sm resize-none focus:outline-none"
               placeholder="Ask your question about animals..."
             />
-            <button type="submit" disabled={status !== 'ready'} className='rounded-xl border p-2 hover:bg-orange-400 hover:text-white hover:cursor-pointer'>
+            <button type="submit" disabled={status !== 'ready' || input.trim() === ''} className='rounded-xl border p-2 hover:bg-orange-400 hover:text-white hover:cursor-pointer'>
               Submit
             </button>
           </div>
